@@ -63,10 +63,10 @@ const StopArrivals = () => {
         <ul className="arrivals-list">
           {arrivals.map((arrival) => (
             <li key={arrival.id}>
-              <h1 className="station-name">Station Name: {arrival.stationName}</h1>
+              <h1 className="station-name">{arrival.stationName}</h1>
               <p className="line-name">Line: {arrival.lineName}</p>
               <p className="destination-name">Destination: {arrival.destinationName}</p>
-              <p className="time-to-arrival">Time to Arrival: {Math.ceil(arrival.timeToStation / 60)} min(s)</p>
+              <p className="time-to-arrival">Arriving in {Math.ceil(arrival.timeToStation / 60)} min(s)</p>
             </li>
           ))}
         </ul>

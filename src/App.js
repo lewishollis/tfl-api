@@ -66,7 +66,7 @@ const StopArrivals = () => {
               <h1 className="station-name">Station Name: {arrival.stationName}</h1>
               <p className="line-name">Line: {arrival.lineName}</p>
               <p className="destination-name">Destination: {arrival.destinationName}</p>
-              <p className="time-to-arrival">Time to Arrival: {arrival.timeToStation} seconds</p>
+              <p className="time-to-arrival">Time to Arrival: {Math.ceil(arrival.timeToStation / 60)} min(s)</p>
             </li>
           ))}
         </ul>

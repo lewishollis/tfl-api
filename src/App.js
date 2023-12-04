@@ -25,34 +25,43 @@ const StopArrivals = () => {
     }
   };
 
+  const fetchArrivals = async () => {
+    if (!selectedStationId) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${selectedStationId}/Arrivals`);
+      const data = await response.json();
+
+      setArrivals(data);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchArrivals = async () => {
-      if (!selectedStationId) {
-        return;
-      }
-
-      try {
-        setLoading(true);
-
-        const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${selectedStationId}/Arrivals`);
-        const data = await response.json();
-
-        setArrivals(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-
+    // Initial fetch on component mount
     fetchArrivals();
-  }, [selectedStationId]);
+
+    // Set up interval to refresh every 1 minute (adjust as needed)
+    const intervalId = setInterval(() => {
+      fetchArrivals();
+    }, 30000); // 60000 milliseconds = 1 minute
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [selectedStationId]); // Only re-run the effect if selectedStationId changes
 
   return (
     <div className="stop-arrivals-container">
       <SearchBar onSearch={handleSearch} />
       {selectedStationId && (
-        <p className="selected-station-id">Selected Station ID: {selectedStationId}</p>
+        <p className="selected-station-id">Results are refreshed every 30 seconds</p>
       )}
 
       {loading && <p className="loading-message">Loading arrivals...</p>}
@@ -61,17 +70,20 @@ const StopArrivals = () => {
 
       {arrivals.length > 0 && (
         <ul className="arrivals-list">
-          {arrivals.map((arrival) => (
-            <li key={arrival.id} className="arrival-card">
-              <h1 className="station-name">Station Name: {arrival.stationName}</h1>
-              <p className="line-name">Line: {arrival.lineName}</p>
-              <p className="destination-name">Destination: {arrival.destinationName}</p>
-              <p className="time-to-arrival">Time to Arrival: {Math.ceil(arrival.timeToStation / 60)} minutes</p>
-            </li>
-          ))}
+          {arrivals
+            .sort((a, b) => a.timeToStation - b.timeToStation)
+            .map((arrival) => (
+              <li key={arrival.id} className="arrival-card">
+                <h1 className="station-name">{arrival.stationName}</h1>
+                <p className="line-name"> {arrival.lineName}</p>
+                <p className="destination-name">Terminates: {arrival.destinationName}</p>
+                <p className="time-to-arrival">Time to Arrival: {Math.ceil(arrival.timeToStation / 60)} minutes</p>
+              </li>
+            ))}
         </ul>
       )}
     </div>
   );
 };
+
 export default StopArrivals;

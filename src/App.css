@@ -1,4 +1,13 @@
-/* App.css */
+@font-face {
+  font-family: 'London Underground Heavy';
+  src: local('./fonts/London Underground Heavy.ttf'), url('./fonts/London\ Underground\ Heavy.ttf') format('truetype');
+}
+
+body {
+  font-family: 'London Underground Heavy';
+
+}
+
 
 .stop-arrivals-container {
   max-width: 600px;
@@ -12,10 +21,12 @@
 }
 
 .arrival-card {
+  color: yellow;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 10px;
+  background: black;
 }
 
 .station-name {
@@ -37,7 +48,7 @@
 .time-to-arrival {
   font-size: 1em;
   margin: 5px 0;
-  color: #007bff; /* Blue color for emphasis */
+  color: #ececec; /* Blue color for emphasis */
 }
 
 

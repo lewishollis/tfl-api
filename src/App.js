@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
+import './App.css';
 
 const StopArrivals = () => {
-  let [selectedStationId, setSelectedStationId] = useState(null);
-  let [arrivals, setArrivals] = useState([]);
-  let [loading, setLoading] = useState(false);
-  let [error, setError] = useState(null);
+  const [selectedStationId, setSelectedStationId] = useState(null);
+  const [arrivals, setArrivals] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async (query) => {
     try {
       const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Search?query=${query}`);
       const data = await response.json();
-
-      // For simplicity, assuming the first result contains the relevant information
       const firstResult = data.matches[0];
 
-      // Extract the station ID and station name
       if (firstResult) {
         setSelectedStationId(firstResult.id);
-
       } else {
         setSelectedStationId(null);
-
       }
     } catch (error) {
       console.error('Error fetching data:', error);
       setSelectedStationId(null);
-
     }
   };
 
@@ -54,24 +49,24 @@ const StopArrivals = () => {
   }, [selectedStationId]);
 
   return (
-    <div>
+    <div className="stop-arrivals-container">
       <SearchBar onSearch={handleSearch} />
       {selectedStationId && (
-        <p>Selected Station ID: {selectedStationId}</p>
+        <p className="selected-station-id">Selected Station ID: {selectedStationId}</p>
       )}
 
-      {loading && <p>Loading arrivals...</p>}
+      {loading && <p className="loading-message">Loading arrivals...</p>}
 
-      {error && <p>Error fetching arrivals: {error.message}</p>}
+      {error && <p className="error-message">Error fetching arrivals: {error.message}</p>}
 
       {arrivals.length > 0 && (
-        <ul>
+        <ul className="arrivals-list">
           {arrivals.map((arrival) => (
             <li key={arrival.id}>
-              <h1>Station Name: {arrival.stationName}</h1>
-              <p>Line: {arrival.lineName}</p>
-              <p>Destination: {arrival.destinationName}</p>
-              <p>Time to Arrival: {arrival.timeToStation} seconds</p>
+              <h1 className="station-name">Station Name: {arrival.stationName}</h1>
+              <p className="line-name">Line: {arrival.lineName}</p>
+              <p className="destination-name">Destination: {arrival.destinationName}</p>
+              <p className="time-to-arrival">Time to Arrival: {arrival.timeToStation} seconds</p>
             </li>
           ))}
         </ul>

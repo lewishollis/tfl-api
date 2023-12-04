@@ -1,47 +1,39 @@
-import React, { useEffect, useState } from 'react';
+// StopArrivals.js
 
-const StopArrivals = ({ stopId }) => {
-  const [arrivals, setArrivals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import React, { useState } from 'react';
+import SearchBar from './SearchBar';
 
-  useEffect(() => {
-    const fetchArrivals = async () => {
-      try {
-        // Fetch arrivals data from the TFL API
-        const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${stopId}/Arrivals`);
-        const data = await response.json();
+const StopArrivals = () => {
+  const [selectedStationId, setSelectedStationId] = useState(null);
 
-        setArrivals(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
+  const handleSearch = async (query) => {
+    try {
+      const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Search?query=${query}`);
+      const data = await response.json();
+
+      // For simplicity, assuming the first result contains the relevant information
+      const firstResult = data.matches[0];
+
+      // Extract the station ID and set it to the state variable selectedStationId
+      if (firstResult) {
+        setSelectedStationId(firstResult.id);
+      } else {
+        setSelectedStationId(null);
       }
-    };
-
-    fetchArrivals();
-  }, [stopId]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setSelectedStationId(null);
+    }
+  };
 
   return (
     <div>
-      <h2>Arrivals at Stop ID: {stopId}</h2>
-
-      {loading && <p>Loading...</p>}
-
-      {error && <p>Error: {error.message}</p>}
-
-      {arrivals.length > 0 && (
-        <ul>
-          {arrivals.map((arrival) => (
-            <li key={arrival.id}>
-              <p>Line: {arrival.lineName}</p>
-              <p>Destination: {arrival.destinationName}</p>
-              <p>Time to Arrival: {arrival.timeToStation} seconds</p>
-            </li>
-          ))}
-        </ul>
+      <h2>Stop Arrivals</h2>
+      <SearchBar onSearch={handleSearch} />
+      {selectedStationId && (
+        <p>Selected Station ID: {selectedStationId}</p>
       )}
+      {/* Display arrivals and other components here */}
     </div>
   );
 };

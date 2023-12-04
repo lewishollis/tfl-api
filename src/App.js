@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>My TFL App</h1>
+      <h1>Tube Station Name here</h1>
       <StopArrivals stopId={stopId} />
     </div>
   );

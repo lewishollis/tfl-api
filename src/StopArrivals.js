@@ -1,10 +1,13 @@
 // StopArrivals.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 
 const StopArrivals = () => {
   const [selectedStationId, setSelectedStationId] = useState(null);
+  const [arrivals, setArrivals] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async (query) => {
     try {
@@ -26,6 +29,29 @@ const StopArrivals = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchArrivals = async () => {
+      if (!selectedStationId) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const response = await fetch(`https://api.tfl.gov.uk/StopPoint/${selectedStationId}/Arrivals`);
+        const data = await response.json();
+
+        setArrivals(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchArrivals();
+  }, [selectedStationId]);
+
   return (
     <div>
       <h2>Stop Arrivals</h2>
@@ -33,7 +59,22 @@ const StopArrivals = () => {
       {selectedStationId && (
         <p>Selected Station ID: {selectedStationId}</p>
       )}
-      {/* Display arrivals and other components here */}
+
+      {loading && <p>Loading arrivals...</p>}
+
+      {error && <p>Error fetching arrivals: {error.message}</p>}
+
+      {arrivals.length > 0 && (
+        <ul>
+          {arrivals.map((arrival) => (
+            <li key={arrival.id}>
+              <p>Line: {arrival.lineName}</p>
+              <p>Destination: {arrival.destinationName}</p>
+              <p>Time to Arrival: {arrival.timeToStation} seconds</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

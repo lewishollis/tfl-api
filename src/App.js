@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
 
-function App() {
+import React from 'react';
+import StopArrivals from './StopArrivals';
+
+const App = () => {
+  const stopId = '940GZZLUEPY';
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>My TFL App</h1>
+      <StopArrivals stopId={stopId} />
     </div>
   );
-}
+};
 
 export default App;

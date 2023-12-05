@@ -61,7 +61,7 @@ const StopArrivals = () => {
     <div className="stop-arrivals-container">
       <SearchBar onSearch={handleSearch} />
       {selectedStationId && (
-        <p className="selected-station-id">Results are refreshed every 30 seconds</p>
+        <p className="selected-station-id">ID: {selectedStationId}. Results are refreshed every 30 seconds</p>
       )}
 
       {loading && <p className="loading-message">Loading arrivals...</p>}

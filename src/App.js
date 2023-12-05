@@ -10,7 +10,7 @@ const StopArrivals = () => {
 
   const handleSearch = async (query) => {
     try {
-      const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Search?query=${query}`);
+      const response = await fetch(`https://api.tfl.gov.uk/StopPoint/Search?query=${query}&modes=tube`);
       const data = await response.json();
       const firstResult = data.matches[0];
 

@@ -29,6 +29,8 @@ body {
 }
 
 .arrival-card {
+  font-family: 'London Underground Heavy';
+  src: local('./fonts/London Underground Heavy.ttf'), url('./fonts/London\ Underground\ Heavy.ttf') format('truetype');
   color: yellow;
   border: 1px solid #ccc;
   border-radius: 5px;

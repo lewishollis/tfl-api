@@ -45,17 +45,13 @@ const StopArrivals = () => {
   };
 
   useEffect(() => {
-    // Initial fetch on component mount
     fetchArrivals();
-
-    // Set up interval to refresh every 1 minute (adjust as needed)
     const intervalId = setInterval(() => {
       fetchArrivals();
-    }, 30000); // 60000 milliseconds = 1 minute
+    }, 30000);
 
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
-  }, [selectedStationId]); // Only re-run the effect if selectedStationId changes
+  }, [selectedStationId]);
 
   return (
     <div className="stop-arrivals-container">

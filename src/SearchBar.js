@@ -18,15 +18,20 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div class="search-bar">
+    <div className="input-group mb-3">
       <input
         type="text"
+        className="form-control"
         placeholder="Search for a station..."
         value={query}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
-      <button onClick={handleSearchClick}>Search</button>
+      <div className="input-group-append">
+        <button className="btn btn-outline-secondary" type="button" onClick={handleSearchClick}>
+          Search
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const StopArrivals = () => {
   const [selectedStationId, setSelectedStationId] = useState(null);

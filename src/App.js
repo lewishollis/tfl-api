@@ -71,9 +71,9 @@ const StopArrivals = () => {
             .sort((a, b) => a.timeToStation - b.timeToStation)
             .map((arrival) => (
               <li key={arrival.id} className="arrival-card">
-                <h1 className="station-name">{arrival.stationName}</h1>
+                <h1 className="destination-name">Direction: {arrival.destinationName} </h1>
+                <p className="station-name">{arrival.stationName}</p>
                 <p className="line-name"> {arrival.lineName}</p>
-                <p className="destination-name">Terminates: {arrival.destinationName}</p>
                 <p className="time-to-arrival">Time to Arrival: {Math.ceil(arrival.timeToStation / 60)} minutes</p>
               </li>
             ))}

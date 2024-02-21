@@ -48,7 +48,7 @@ body {
 
 
 .station-name {
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -59,7 +59,7 @@ body {
 }
 
 .destination-name {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 5px 0;
 }
 
@@ -68,7 +68,6 @@ body {
   margin: 5px 0;
   color: #ececec; /* Blue color for emphasis */
 }
-
 
 .search-bar {
   margin-bottom: 10px;
